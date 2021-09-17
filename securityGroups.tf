@@ -33,7 +33,7 @@ resource "aws_security_group" "lb" {
   ]
 
   tags = {
-    Name = "starter-kit-lb"
+    Name = "jiehao-starter-kit-lb"
   }
 }
 
@@ -81,6 +81,6 @@ resource "aws_security_group" "ec2" {
   ]
 
   tags = {
-    Name = "starter-kit-ec2"
+    Name = "jiehao-starter-kit-ec2"
   }
 }
