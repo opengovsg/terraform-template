@@ -1,5 +1,5 @@
 resource "aws_security_group" "lb" {
-  name        = "jiehao-starter-kit-lb"
+  name        = "starter-kit-lb"
   description = "Allow inbound traffic only from cloudflare IPs"
   vpc_id      = module.vpc.vpc_id
 
@@ -33,12 +33,12 @@ resource "aws_security_group" "lb" {
   ]
 
   tags = {
-    Name = "jiehao-starter-kit-lb"
+    Name = "starter-kit-lb"
   }
 }
 
 resource "aws_security_group" "ec2" {
-  name        = "jiehao-starter-kit-ec2"
+  name        = "starter-kit-ec2"
   description = "Allow inbound traffic only from load balancer"
   vpc_id      = module.vpc.vpc_id
   ingress = [
@@ -58,7 +58,7 @@ resource "aws_security_group" "ec2" {
       from_port        = 443
       to_port          = 443
       protocol         = "tcp"
-      security_groups = [aws_security_group.lb.id]
+      security_groups  = [aws_security_group.lb.id]
       cidr_blocks      = null
       ipv6_cidr_blocks = null
       prefix_list_ids  = null
@@ -81,6 +81,6 @@ resource "aws_security_group" "ec2" {
   ]
 
   tags = {
-    Name = "jiehao-starter-kit-ec2"
+    Name = "starter-kit-ec2"
   }
 }

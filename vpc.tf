@@ -1,7 +1,7 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "jiehao-test"
+  name = "starter-kit-test"
   cidr = "10.0.0.0/16"
 
   azs             = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
@@ -9,13 +9,13 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
   enable_nat_gateway = true
-  single_nat_gateway  = true
-  reuse_nat_ips       = false
+  single_nat_gateway = true
+  reuse_nat_ips      = false
   enable_vpn_gateway = false
 
   tags = {
-    Terraform = "true"
-    Environment = "jiehao-test"
+    Terraform   = "true"
+    Environment = "starter-kit-test"
   }
 }
 
@@ -28,6 +28,6 @@ resource "aws_flow_log" "example" {
 }
 
 resource "aws_s3_bucket" "test_app_flow_logs" {
-  bucket = "test-app-flow-logs"
+  bucket        = "starter-kit-test-flow-logs"
   force_destroy = true
 }
