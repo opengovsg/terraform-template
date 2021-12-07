@@ -21,10 +21,20 @@ provider "aws" {
   allowed_account_ids = [var.allowed_account_id] # Avoid nuking the wrong account
 }
 
+locals {
+  app_name = "app"
+  environment = "test"
+  tags = {
+    App = local.app_name
+    Terraform = "true"
+    Environment = local.environment
+  }
+}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "app"
+  name = "${local.app_name}-${local.environment}"
   cidr = "10.0.0.0/16"
 
   azs             = var.aws_azs
@@ -55,8 +65,5 @@ module "vpc" {
   enable_dns_support   = true
   # END: for publicly accessible database
 
-  tags = {
-    Terraform   = "true"
-    Environment = "test"
-  }
+  tags = local.tags
 }
