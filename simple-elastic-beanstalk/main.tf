@@ -157,6 +157,7 @@ module "db" {
 
 module "elastic_beanstalk_application" {
   source = "cloudposse/elastic-beanstalk-application/aws"
+  version = "0.11.1"
   # namespace   = "ogp"
   stage       = local.environment
   name        = local.app_name
