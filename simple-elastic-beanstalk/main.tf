@@ -156,7 +156,7 @@ module "db" {
 }
 
 module "elastic_beanstalk_application" {
-  source = "cloudposse/elastic-beanstalk-application/aws"
+  source  = "cloudposse/elastic-beanstalk-application/aws"
   version = "0.11.1"
   # namespace   = "ogp"
   stage       = local.environment
@@ -165,3 +165,71 @@ module "elastic_beanstalk_application" {
   tags        = local.tags
 }
 
+module "elastic_beanstalk_environment" {
+  source = "cloudposse/elastic-beanstalk-environment/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version = "x.x.x"
+  # namespace                          = var.namespace
+  stage                      = local.environment
+  name                       = local.app_name
+  description                = "Elastic Beanstalk environment for ${local.app_name}-${local.environment}"
+  region                     = var.aws_region
+  availability_zone_selector = "Any 2"
+  # dns_zone_id                        = var.dns_zone_id
+  elastic_beanstalk_application_name = module.elastic_beanstalk_application.elastic_beanstalk_application_name
+
+  instance_type           = "t3.micro"
+  autoscale_min           = 1
+  autoscale_max           = 1
+  updating_min_in_service = 0
+  updating_max_batch      = 1
+
+  loadbalancer_type    = "application"
+  vpc_id               = module.vpc.vpc_id
+  loadbalancer_subnets = module.vpc.public_subnets
+  application_subnets  = module.vpc.private_subnets
+  security_group_rules = [
+    {
+      type                     = "egress"
+      from_port                = 0
+      to_port                  = 65535
+      protocol                 = "-1"
+      cidr_blocks              = ["0.0.0.0/0"]
+      source_security_group_id = null
+      description              = "Allow all outbound traffic"
+    },
+    # {
+    #   type                     = "ingress"
+    #   from_port                = 0
+    #   to_port                  = 65535
+    #   protocol                 = "-1"
+    #   source_security_group_id = module.vpc.default_security_group_id
+    #   cidr_blocks              = null
+    #   description              = "Allow all ingress traffic from trusted Security Groups"
+    # },
+  ]
+  prefer_legacy_service_policy = false
+
+  // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html
+  // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html#platforms-supported.docker
+  solution_stack_name = "64bit Amazon Linux 2 v3.4.9 running Docker"
+
+  additional_settings = [
+    {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_HOST"
+      value     = "xxxxxxxxxxxxxx"
+    },
+    {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_USERNAME"
+      value     = "yyyyyyyyyyyyy"
+    },
+    {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_PASSWORD"
+      value     = "zzzzzzzzzzzzzzzzzzz"
+    }
+  ]
+}
+  
