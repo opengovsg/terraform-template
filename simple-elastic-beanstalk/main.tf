@@ -22,11 +22,11 @@ provider "aws" {
 }
 
 locals {
-  app_name = "app"
+  app_name    = "app"
   environment = "test"
   tags = {
-    App = local.app_name
-    Terraform = "true"
+    App         = local.app_name
+    Terraform   = "true"
     Environment = local.environment
   }
 }
@@ -67,3 +67,100 @@ module "vpc" {
 
   tags = local.tags
 }
+
+module "db_security_group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "~> 4"
+
+  name        = "${local.app_name}-${local.environment}"
+  description = "PostgreSQL security group for ${local.app_name}-${local.environment}"
+  vpc_id      = module.vpc.vpc_id
+
+  # ingress
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      description = "PostgreSQL access from within VPC"
+      cidr_blocks = module.vpc.vpc_cidr_block
+    },
+  ]
+
+  tags = local.tags
+}
+
+module "db" {
+  source = "terraform-aws-modules/rds/aws"
+
+  identifier = "${local.app_name}-${local.environment}"
+
+  apply_immediately = true # Don't wait for maintenance window
+
+  # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
+  engine               = "postgres"
+  engine_version       = "13.4"
+  family               = "postgres13" # DB parameter group
+  major_engine_version = "13"         # DB option group
+  instance_class       = "db.t3.micro"
+
+  # Storage options
+  allocated_storage     = 20    # GB
+  max_allocated_storage = 100   # GB
+  storage_encrypted     = true  # Uses default KMS key, if `kms_key_id` not set
+  storage_type          = "gp2" # General purpose
+  # iops = 0 # Setting this implies a storage_type of "io1" (provisioned IOPS SSD)
+
+  # Credentials
+  name     = "${local.app_name}${local.environment}"
+  username = var.db_root_user
+  password = var.db_root_password
+  port     = 5432
+
+  multi_az               = true
+  subnet_ids             = module.vpc.database_subnets
+  vpc_security_group_ids = [module.db_security_group.security_group_id]
+
+  publicly_accessible = true # Not encouraged for production
+
+  # Maintenance window
+  maintenance_window              = "Mon:00:00-Mon:03:00"
+  backup_window                   = "03:00-06:00"
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+
+  # Backup configuration
+  backup_retention_period = 0
+  skip_final_snapshot     = true
+  deletion_protection     = true
+
+  # Monitoring options
+  performance_insights_enabled          = true
+  performance_insights_retention_period = 7
+  create_monitoring_role                = true
+  monitoring_interval                   = 60
+  monitoring_role_name                  = "example-monitoring-role-name"
+  monitoring_role_description           = "Description for monitoring role"
+
+  parameters = [
+    {
+      name  = "autovacuum"
+      value = 1
+    },
+    {
+      name  = "client_encoding"
+      value = "utf8"
+    }
+  ]
+
+  tags = local.tags
+}
+
+module "elastic_beanstalk_application" {
+  source = "cloudposse/elastic-beanstalk-application/aws"
+  # namespace   = "ogp"
+  stage       = local.environment
+  name        = local.app_name
+  description = "Elastic Beanstalk application for ${local.app_name}-${local.environment}"
+  tags        = local.tags
+}
+

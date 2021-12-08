@@ -19,3 +19,14 @@ variable "aws_azs" {
   description = "List of Availability Zones to deploy resources into"
   default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
 }
+
+variable "db_root_user" {
+  type        = string
+  description = "Database root username (do not user \"user\")!"
+  default     = "postgres"
+}
+
+variable "db_root_password" {
+  type        = string
+  description = "Database root password"
+}
