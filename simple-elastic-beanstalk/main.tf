@@ -41,7 +41,7 @@ module "vpc" {
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"] # For load balancers
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]       # For app servers
 
-  database_subnets = ["10.0.21.0/24", "10.0.22.0/24"]
+  database_subnets = ["10.0.21.0/24", "10.0.22.0/24"] # For primary + failover
   # elasticache_subnets = ["10.0.31.0/24", "10.0.32.0/24"]
   # redshift_subnets    = ["10.0.41.0/24", "10.0.42.0/24"]
   # intra_subnets       = ["10.0.51.0/24", "10.0.52.0/24", "10.0.53.0/24"] # For internal workloads
