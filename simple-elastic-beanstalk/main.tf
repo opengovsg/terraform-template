@@ -56,7 +56,7 @@ module "vpc" {
   enable_vpn_gateway = true
 
   # BEGIN: for publicly accessible database
-  # (not recommended for production)
+  # (comment out this section for production environments)
   create_database_subnet_group           = true
   create_database_subnet_route_table     = true
   create_database_internet_gateway_route = true
