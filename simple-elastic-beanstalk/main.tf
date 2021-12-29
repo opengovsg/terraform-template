@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "remote" {
-    organization = "yuanruo-test"
+    organization = "yuanruo-test" # TODO: remove
 
     workspaces {
-      name = "yuanruo-test"
+      name = "yuanruo-test" # TODO: remove
     }
   }
   required_version = ">= 0.14.9"
