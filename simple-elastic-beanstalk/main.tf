@@ -28,6 +28,7 @@ locals {
     App         = local.app_name
     Terraform   = "true"
     Environment = local.environment
+    Workspace   = terraform.workspace
   }
 }
 
