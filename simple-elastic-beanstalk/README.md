@@ -61,12 +61,35 @@ In `main.tf`:
 1. Delete the code section indicated by `BEGIN: for publicly accessible database` and `END: for publicly accessible database`.
 2. Delete the line `publicly_accessible = true` in the `"db"` module.
 
-### Create infrastructure
+### Initialise Terraform
 
-Execute the following command
+Initialise the new Terraform working directory with the following command:
 
 ```zsh
-terraform apply
+terraform init
+```
+
+This will install the necessary modules for your working directory. You should see output similar to the following:
+
+```zsh
+Initializing modules...
+(truncated)
+
+Initializing the backend...
+
+Initializing provider plugins...
+
+(truncated)
+
+Terraform has been successfully initialized!
+```
+
+### Create infrastructure
+
+Execute the following command to create your cloud infrastructure
+
+```zsh
+terraform apply -var-file=".tfvars"
 ```
 
 You should see output similar to the following:
