@@ -14,6 +14,11 @@ variable "aws_region" {
   default     = "ap-southeast-1"
 }
 
+variable "app_name" {
+  type        = string
+  description = "The name of the application"
+}
+
 variable "aws_azs" {
   type        = list(string)
   description = "List of Availability Zones to deploy resources into"
