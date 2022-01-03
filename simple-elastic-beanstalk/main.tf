@@ -147,9 +147,9 @@ module "db" {
 }
 
 module "elastic_beanstalk_application" {
-  source  = "cloudposse/elastic-beanstalk-application/aws"
-  version = "0.11.1"
-  # namespace   = "ogp"
+  source      = "cloudposse/elastic-beanstalk-application/aws"
+  version     = "0.11.1"
+  namespace   = var.app_name
   stage       = terraform.workspace
   name        = var.app_name
   description = "Elastic Beanstalk application for ${var.app_name}-${terraform.workspace}"
@@ -159,8 +159,8 @@ module "elastic_beanstalk_application" {
 module "elastic_beanstalk_environment" {
   source = "cloudposse/elastic-beanstalk-environment/aws"
   # Cloud Posse recommends pinning every module to a specific version
-  version = "0.44.0"
-  # namespace                          = var.namespace
+  version                    = "0.44.0"
+  namespace                  = var.app_name
   stage                      = terraform.workspace
   name                       = var.app_name
   description                = "Elastic Beanstalk environment for ${var.app_name}-${terraform.workspace}"
@@ -202,6 +202,11 @@ module "elastic_beanstalk_environment" {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = "DB_PASSWORD"
       value     = module.db.db_instance_password
+    },
+    {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "TF_WORKSPACE"
+      value     = terraform.workspace
     }
   ]
 }
