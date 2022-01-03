@@ -92,7 +92,7 @@ Initializing provider plugins...
 Terraform has been successfully initialized!
 ```
 
-### Create infrastructure
+### Create your infrastructure
 
 First, create a new Terraform *workspace* called "staging":
 
@@ -129,3 +129,17 @@ Do you want to perform these actions in workspace "staging"?
 ```
 
 Take your time to examine the planned changes, and type `yes` to proceed.
+
+You should see output similar to the following:
+
+```txt
+db_endpoint = "<app-name>-staging.<random-identifier>.ap-southeast-1.rds.amazonaws.com:5432"
+db_name = "<db-name>"
+db_port = 5432
+db_security_group_id = "sg-<random-identifier>"
+eb_endpoint = "staging-<app-name>.<random-identifier>.ap-southeast-1.elasticbeanstalk.com"
+```
+
+Access the `eb_endpoint` and check that the application is accessible.
+
+To access the database, whitelist your IP address at the security group at `db_security_group_id`.
