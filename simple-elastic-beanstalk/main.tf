@@ -185,6 +185,7 @@ module "elastic_beanstalk_environment" {
 
   prefer_legacy_service_policy = false
   prefer_legacy_ssm_policy     = false
+  force_destroy = true # to delete S3 bucket for load balancer logs
 
   additional_settings = [
     {
