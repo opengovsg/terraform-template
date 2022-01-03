@@ -5,13 +5,6 @@ terraform {
       version = "~> 3.27"
     }
   }
-  backend "remote" {
-    organization = "yuanruo-test" # TODO: remove
-
-    workspaces {
-      name = "yuanruo-test" # TODO: remove
-    }
-  }
   required_version = ">= 0.14.9"
 }
 
