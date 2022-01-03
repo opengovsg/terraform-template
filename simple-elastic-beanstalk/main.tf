@@ -182,7 +182,7 @@ module "elastic_beanstalk_environment" {
   vpc_id               = module.vpc.vpc_id
   loadbalancer_subnets = module.vpc.public_subnets
   application_subnets  = module.vpc.private_subnets
-  security_group_rules = [
+  additional_security_group_rules = [
     {
       type                     = "egress"
       from_port                = 0
