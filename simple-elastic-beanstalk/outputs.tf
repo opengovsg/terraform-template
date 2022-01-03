@@ -1,21 +1,18 @@
 output "eb_endpoint" {
   value = module.elastic_beanstalk_environment.endpoint
+  description = "Elastic Beanstalk connection endpoint"
 }
 
 output "db_endpoint" {
   value = module.db.db_instance_endpoint
+  description = "Postgres database connection endpoint"
 }
 output "db_port" {
   value = module.db.db_instance_port
+  description = "Postgres database port number"
 }
 
-output "db_schema_name" {
+output "db_name" {
   value = module.db.db_instance_name
-}
-
-output "db_master_username" {
-  value = module.db.db_instance_username
-}
-output "db_master_password" {
-  value = module.db.db_master_password
+  description = "Postgres database name"
 }
