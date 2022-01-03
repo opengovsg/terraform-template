@@ -121,7 +121,7 @@ Terraform will perform the following actions:
 
 Plan: 1 to add, 0 to change, 0 to destroy.
 
-Do you want to perform these actions?
+Do you want to perform these actions in workspace "staging"?
   Terraform will perform the actions described above.
   Only 'yes' will be accepted to approve.
 
