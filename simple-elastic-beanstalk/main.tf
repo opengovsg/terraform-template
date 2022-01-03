@@ -182,10 +182,9 @@ module "elastic_beanstalk_environment" {
   prefer_legacy_service_policy = false
   allow_all_egress             = true
 
-  // See links for supported solution stack names
+  // See link for supported solution stack names
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html
-  // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html#platforms-supported.docker
-  solution_stack_name = "64bit Amazon Linux 2 v3.4.9 running Docker"
+  solution_stack_name = var.eb_solution_stack_name
 
   additional_settings = [
     {

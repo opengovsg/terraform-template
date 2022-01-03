@@ -43,16 +43,22 @@ terraform init
 
 Terraform downloads the aws provider and installs it in a hidden subdirectory of your current working directory, named `.terraform`. The terraform init command prints out which version of the provider was installed. Terraform also considers the existing lock file named `.terraform.lock.hcl` which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project.
 
-### Configure secrets
+### Configuration
 
 Create a file named `.tfvars` with the following contents:
 
-```.tfvars
+```txt
 aws_profile="<your-aws-profile-name>"
 allowed_account_id="<your-aws-account-id>"
 app_name="<your-app-name>
 db_root_user="postgres"
 db_root_password="<your-database-password>"
+```
+
+The stack creates a 64-bit Amazon Linux 2 platform running Docker by default. To use another platform, override this by adding a `eb_solution_stack_name` key to the `.tfvars` file, using one of the values found [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html). For example:
+
+```txt
+eb_solution_stack_name="64bit Amazon Linux 2 v3.4.10 running Docker"
 ```
 
 ### (optional) disallow publicly accessible database
