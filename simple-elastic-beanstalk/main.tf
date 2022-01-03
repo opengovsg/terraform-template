@@ -44,7 +44,7 @@ module "vpc" {
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
 
-  enable_vpn_gateway = true
+  enable_vpn_gateway = false
 
   # BEGIN: for publicly accessible database
   # (comment out this section for production environments)
