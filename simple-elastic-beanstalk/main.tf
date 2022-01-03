@@ -173,16 +173,18 @@ module "elastic_beanstalk_environment" {
   updating_min_in_service = 0
   updating_max_batch      = 1
 
-  loadbalancer_type            = "application"
-  vpc_id                       = module.vpc.vpc_id
-  loadbalancer_subnets         = module.vpc.public_subnets
-  application_subnets          = module.vpc.private_subnets
-  prefer_legacy_service_policy = false
-  allow_all_egress             = true
+  loadbalancer_type    = "application"
+  vpc_id               = module.vpc.vpc_id
+  loadbalancer_subnets = module.vpc.public_subnets
+  application_subnets  = module.vpc.private_subnets
+  allow_all_egress     = true
 
   // See link for supported solution stack names
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html
   solution_stack_name = var.eb_solution_stack_name
+
+  prefer_legacy_service_policy = false
+  prefer_legacy_ssm_policy     = false
 
   additional_settings = [
     {
