@@ -194,17 +194,17 @@ module "elastic_beanstalk_environment" {
     {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = "DB_HOST"
-      value     = "xxxxxxxxxxxxxx"
+      value     = module.db.db_instance_endpoint
     },
     {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = "DB_USERNAME"
-      value     = "yyyyyyyyyyyyy"
+      value     = module.db.db_instance_username
     },
     {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = "DB_PASSWORD"
-      value     = "zzzzzzzzzzzzzzzzzzz"
+      value     = module.db.db_instance_password
     }
   ]
 }
