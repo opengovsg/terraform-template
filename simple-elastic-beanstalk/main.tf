@@ -103,7 +103,7 @@ module "db" {
   # iops = 0 # Setting this implies a storage_type of "io1" (provisioned IOPS SSD)
 
   # Credentials
-  name     = "${var.app_name}${terraform.workspace}"
+  name     = "${var.app_name}-${terraform.workspace}"
   username = var.db_root_user
   password = var.db_root_password
   port     = 5432
