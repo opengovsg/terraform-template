@@ -16,3 +16,8 @@ output "db_name" {
   value = module.db.db_instance_name
   description = "Postgres database name"
 }
+
+output "db_security_group_id" {
+  value = module.db_security_group.security_group_id
+  description = "Postgres database security group ID"
+}
