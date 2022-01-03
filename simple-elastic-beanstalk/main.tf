@@ -16,11 +16,9 @@ provider "aws" {
 
 locals {
   app_name    = "app"
-  environment = "test"
   tags = {
     App         = local.app_name
     Terraform   = "true"
-    Environment = local.environment
     Workspace   = terraform.workspace
   }
 }
@@ -28,7 +26,7 @@ locals {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "${local.app_name}-${local.environment}"
+  name = "${local.app_name}-${terraform.workspace}"
   cidr = "10.0.0.0/16"
 
   azs             = var.aws_azs
@@ -66,8 +64,8 @@ module "db_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4"
 
-  name        = "${local.app_name}-${local.environment}"
-  description = "PostgreSQL security group for ${local.app_name}-${local.environment}"
+  name        = "${local.app_name}-${terraform.workspace}"
+  description = "PostgreSQL security group for ${local.app_name}-${terraform.workspace}"
   vpc_id      = module.vpc.vpc_id
 
   # ingress
@@ -87,7 +85,7 @@ module "db_security_group" {
 module "db" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier = "${local.app_name}-${local.environment}"
+  identifier = "${local.app_name}-${terraform.workspace}"
 
   apply_immediately = true # Don't wait for maintenance window
 
@@ -106,7 +104,7 @@ module "db" {
   # iops = 0 # Setting this implies a storage_type of "io1" (provisioned IOPS SSD)
 
   # Credentials
-  name     = "${local.app_name}${local.environment}"
+  name     = "${local.app_name}${terraform.workspace}"
   username = var.db_root_user
   password = var.db_root_password
   port     = 5432
@@ -153,9 +151,9 @@ module "elastic_beanstalk_application" {
   source  = "cloudposse/elastic-beanstalk-application/aws"
   version = "0.11.1"
   # namespace   = "ogp"
-  stage       = local.environment
+  stage       = terraform.workspace
   name        = local.app_name
-  description = "Elastic Beanstalk application for ${local.app_name}-${local.environment}"
+  description = "Elastic Beanstalk application for ${local.app_name}-${terraform.workspace}"
   tags        = local.tags
 }
 
@@ -164,9 +162,9 @@ module "elastic_beanstalk_environment" {
   # Cloud Posse recommends pinning every module to a specific version
   version = "0.44.0"
   # namespace                          = var.namespace
-  stage                      = local.environment
+  stage                      = terraform.workspace
   name                       = local.app_name
-  description                = "Elastic Beanstalk environment for ${local.app_name}-${local.environment}"
+  description                = "Elastic Beanstalk environment for ${local.app_name}-${terraform.workspace}"
   region                     = var.aws_region
   availability_zone_selector = "Any 2"
   # dns_zone_id                        = var.dns_zone_id
