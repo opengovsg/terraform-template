@@ -162,7 +162,7 @@ module "elastic_beanstalk_application" {
 module "elastic_beanstalk_environment" {
   source = "cloudposse/elastic-beanstalk-environment/aws"
   # Cloud Posse recommends pinning every module to a specific version
-  # version = "x.x.x"
+  version = "0.44.0"
   # namespace                          = var.namespace
   stage                      = local.environment
   name                       = local.app_name
@@ -178,32 +178,14 @@ module "elastic_beanstalk_environment" {
   updating_min_in_service = 0
   updating_max_batch      = 1
 
-  loadbalancer_type    = "application"
-  vpc_id               = module.vpc.vpc_id
-  loadbalancer_subnets = module.vpc.public_subnets
-  application_subnets  = module.vpc.private_subnets
-  additional_security_group_rules = [
-    {
-      type                     = "egress"
-      from_port                = 0
-      to_port                  = 65535
-      protocol                 = "-1"
-      cidr_blocks              = ["0.0.0.0/0"]
-      source_security_group_id = null
-      description              = "Allow all outbound traffic"
-    },
-    # {
-    #   type                     = "ingress"
-    #   from_port                = 0
-    #   to_port                  = 65535
-    #   protocol                 = "-1"
-    #   source_security_group_id = module.vpc.default_security_group_id
-    #   cidr_blocks              = null
-    #   description              = "Allow all ingress traffic from trusted Security Groups"
-    # },
-  ]
+  loadbalancer_type            = "application"
+  vpc_id                       = module.vpc.vpc_id
+  loadbalancer_subnets         = module.vpc.public_subnets
+  application_subnets          = module.vpc.private_subnets
   prefer_legacy_service_policy = false
+  allow_all_egress             = true
 
+  // See links for supported solution stack names
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html#platforms-supported.docker
   solution_stack_name = "64bit Amazon Linux 2 v3.4.9 running Docker"
