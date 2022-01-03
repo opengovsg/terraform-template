@@ -50,7 +50,8 @@ Create a file named `.tfvars` with the following contents:
 ```txt
 aws_profile="<your-aws-profile-name>"
 allowed_account_id="<your-aws-account-id>"
-app_name="<your-app-name>
+app_name="<your-app-name>"
+db_name="app"
 db_root_user="postgres"
 db_root_password="<your-database-password>"
 ```

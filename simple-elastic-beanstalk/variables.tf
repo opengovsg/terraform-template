@@ -29,6 +29,15 @@ variable "app_name" {
   type        = string
   description = "The name of the application"
 }
+
+variable "db_name" {
+  type        = string
+  description = "The name of the database schema name to create"
+  validation {
+    condition     = can(regex("[a-zA-Z][a-zA-Z0-9]*", var.db_name))
+    error_message = "The db_name variable must adhere to the following regex: \"[a-zA-Z][a-zA-Z0-9]*\"."
+  }
+}
 variable "db_root_user" {
   type        = string
   description = "Database root username (do not user \"user\")!"
