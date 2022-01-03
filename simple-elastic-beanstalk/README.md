@@ -27,21 +27,29 @@ Configure the `aws-cli` from your terminal by following the prompts to input you
 aws configure
 ```
 
+Alternatively, supply your credentials by modifying the `~/.aws/credentials` file directly:
+
+```txt
+[your-aws-profile-name]
+aws_access_key_id=<your-aws-access-key-id>
+aws_secret_access_key=<your-secret-access-key>
+```
+
 ### Initialise your project directory
 
 ```zsh
 terraform init
 ```
 
-Terraform downloads the aws provider and installs it in a hidden subdirectory of your current working directory, named `.terraform`. The terraform init command prints out which version of the provider was installed. Terraform also creates a lock file named `.terraform.lock.hcl` which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project.
+Terraform downloads the aws provider and installs it in a hidden subdirectory of your current working directory, named `.terraform`. The terraform init command prints out which version of the provider was installed. Terraform also considers the existing lock file named `.terraform.lock.hcl` which specifies the exact provider versions used, so that you can control when you want to update the providers used for your project.
 
-### Customise secrets
+### Configure secrets
 
 Create a file named `.tfvars` with the following contents:
 
 ```.tfvars
-allowed_account_id="<your-aws-account-id>"
 aws_profile="<your-aws-profile-name>"
+allowed_account_id="<your-aws-account-id>"
 db_root_user="postgres"
 db_root_password="<your-database-password>"
 ```
@@ -55,16 +63,22 @@ In `main.tf`:
 
 ### Create infrastructure
 
-```zsh
-$ terraform apply
+Execute the following command
 
+```zsh
+terraform apply
+```
+
+You should see output similar to the following:
+
+```zsh
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
   + create
 
 Terraform will perform the following actions:
 
-(truncated)
+(...)
 
 Plan: 1 to add, 0 to change, 0 to destroy.
 
