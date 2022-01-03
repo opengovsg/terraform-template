@@ -143,3 +143,11 @@ eb_endpoint = "staging-<app-name>.<random-identifier>.ap-southeast-1.elasticbean
 Access the `eb_endpoint` and check that the application is accessible.
 
 To access the database, whitelist your IP address at the security group at `db_security_group_id`.
+
+### Tearing down the infrastructure
+
+Visit AWS RDS and disable deletion protection on your database instance, then run the following command to remove all created infrastructure:
+
+```zsh
+terraform destroy -var-file=".tfvars"
+```
