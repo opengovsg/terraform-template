@@ -19,7 +19,7 @@ brew install hashicorp/tap/terraform
 
 Install the `aws-cli` by following the official instructions [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
 
-### Configuration
+### Configure credentials
 
 Configure the `aws-cli` from your terminal by following the prompts to input your AWS Access Key ID and Secret Access Key.
 
@@ -86,7 +86,15 @@ Terraform has been successfully initialized!
 
 ### Create infrastructure
 
-Execute the following command to create your cloud infrastructure
+First, create a new Terraform *workspace* called "staging":
+
+```zsh
+terraform workspace new staging
+```
+
+This will help to identify and isolate staging resources from any production resources you may create in future, should you choose to do so.
+
+Next, execute the following command to create your cloud infrastructure
 
 ```zsh
 terraform apply -var-file=".tfvars"
@@ -112,4 +120,4 @@ Do you want to perform these actions?
   Enter a value:
 ```
 
-Examine the planned changes, and type `yes` to proceed.
+Take your time to examine the planned changes, and type `yes` to proceed.
