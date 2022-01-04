@@ -122,7 +122,7 @@ module "db" {
   # Backup configuration
   backup_retention_period = 0
   skip_final_snapshot     = true
-  deletion_protection     = true
+  deletion_protection     = false
 
   parameters = [
     {

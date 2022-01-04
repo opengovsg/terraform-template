@@ -160,7 +160,7 @@ To access the database, whitelist your IP address at the security group at `db_s
 
 ### Tearing down the infrastructure
 
-Visit AWS RDS and disable deletion protection on your database instance, then run the following command to remove all created infrastructure:
+Run the following command to remove all created infrastructure:
 
 ```zsh
 terraform destroy -var-file=".tfvars"
