@@ -154,6 +154,8 @@ db_security_group_id = "sg-<random-identifier>"
 eb_endpoint = "staging-<app-name>.<random-identifier>.ap-southeast-1.elasticbeanstalk.com"
 ```
 
+> Note - if you see an error message `Error creating SSM activation: ValidationException: Nonexistent role or missing ssm service principal in trust policy`, run the command again as this appears to be a race condition in the Elastic Beanstalk module.
+
 Access the `eb_endpoint` and check that the application is accessible.
 
 To access the database, whitelist your IP address at the security group at `db_security_group_id`.
