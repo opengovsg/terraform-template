@@ -45,7 +45,7 @@ Terraform downloads the aws provider and installs it in a hidden subdirectory of
 
 ### Configuration
 
-Create a file named `.tfvars` with the following contents:
+Create a new file named `.tfvars` in the project directory with the following contents:
 
 ```txt
 aws_profile="<your-aws-profile-name>"
