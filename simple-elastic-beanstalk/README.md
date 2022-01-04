@@ -92,7 +92,7 @@ Initializing provider plugins...
 Terraform has been successfully initialized!
 ```
 
-### Create your infrastructure
+### Creating your infrastructure
 
 First, create a new Terraform *workspace* called "staging":
 
@@ -102,7 +102,21 @@ terraform workspace new staging
 
 This will help to identify and isolate staging resources from any production resources you may create in future, should you choose to do so.
 
-Next, execute the following command to create your cloud infrastructure
+Next, validate the terraform configuration with this command:
+
+```zsh
+terraform validate
+```
+
+You should see output such as the following:
+
+```zsh
+Success! The configuration is valid.
+```
+
+If there are errors, address any issues that may have been raised.
+
+Finally, execute the following command to create your cloud infrastructure
 
 ```zsh
 terraform apply -var-file=".tfvars"
