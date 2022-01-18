@@ -54,6 +54,7 @@ app_name="<your-app-name>"
 db_name="app"
 db_root_user="postgres"
 db_root_password="<your-database-password>"
+my_ipv4="<your-ip-address>"
 ```
 
 The stack creates a 64-bit Amazon Linux 2 platform running Docker by default. To use another platform, override this by adding a `eb_solution_stack_name` key to the `.tfvars` file, using one of the values found [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html). For example:
