@@ -183,7 +183,12 @@ module "elastic_beanstalk_environment" {
     {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = "DB_HOST"
-      value     = module.db.db_instance_endpoint
+      value     = module.db.db_instance_address
+    },
+    {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_PORT"
+      value     = module.db.db_instance_port
     },
     {
       namespace = "aws:elasticbeanstalk:application:environment"
