@@ -53,3 +53,9 @@ variable "my_ipv4" {
   type        = string
   description = "Your IPv4 address for database security group whitelisting"
 }
+
+variable "enable_deletion_protection" {
+  type        = bool
+  description = "Whether to enable deletion protection"
+  default     = true
+}

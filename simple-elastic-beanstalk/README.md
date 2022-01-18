@@ -55,6 +55,7 @@ db_name="app"
 db_root_user="postgres"
 db_root_password="<your-database-password>"
 my_ipv4="<your-ip-address>"
+enable_deletion_protection=false
 ```
 
 The stack creates a 64-bit Amazon Linux 2 platform running Docker by default. To use another platform, override this by adding a `eb_solution_stack_name` key to the `.tfvars` file, using one of the values found [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html). For example:
@@ -168,3 +169,5 @@ Run the following command to remove all created infrastructure:
 ```zsh
 terraform destroy -var-file=".tfvars"
 ```
+
+This command assumes that `enable_deletion_protection` was set to `false` in the `.tfvars` file. If it was enabled, you will need to disable deletion protection on the database first before running it.
