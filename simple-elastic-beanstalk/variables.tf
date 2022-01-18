@@ -40,7 +40,7 @@ variable "db_name" {
 }
 variable "db_root_user" {
   type        = string
-  description = "Database root username (do not user \"user\")!"
+  description = "Database root username (do not use \"user\")!"
   default     = "postgres"
 }
 
