@@ -48,3 +48,8 @@ variable "db_root_password" {
   type        = string
   description = "Database root password"
 }
+
+variable "my_ipv4" {
+  type        = string
+  description = "Your IPv4 address for database security group whitelisting"
+}
