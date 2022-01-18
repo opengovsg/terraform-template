@@ -75,6 +75,12 @@ module "db_security_group" {
       protocol    = "tcp"
       description = "PostgreSQL access from within VPC"
       cidr_blocks = module.vpc.vpc_cidr_block
+      }, {
+      from_port   = 5432
+      to_port     = 5432
+      protocol    = "tcp"
+      description = "Terraform whitelist my_ipv4"
+      cidr_blocks = "${var.my_ipv4}/32"
     },
   ]
 
@@ -122,7 +128,7 @@ module "db" {
   # Backup configuration
   backup_retention_period = 0
   skip_final_snapshot     = true
-  deletion_protection     = false
+  deletion_protection     = var.enable_deletion_protection
 
   parameters = [
     {
@@ -177,12 +183,17 @@ module "elastic_beanstalk_environment" {
 
   prefer_legacy_service_policy = false
   prefer_legacy_ssm_policy     = false
-  force_destroy = true # to delete S3 bucket for load balancer logs
+  force_destroy                = true # to delete S3 bucket for load balancer logs
 
   additional_settings = [
     {
       namespace = "aws:elasticbeanstalk:application:environment"
       name      = "DB_HOST"
+      value     = module.db.db_instance_address
+    },
+    {
+      namespace = "aws:elasticbeanstalk:application:environment"
+      name      = "DB_PORT"
       value     = module.db.db_instance_endpoint
     },
     {
