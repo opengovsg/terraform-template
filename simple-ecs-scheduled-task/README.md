@@ -8,19 +8,46 @@ Before you start anything, you need to create a new Terraform workspace. A works
 terraform workspace new development
 ```
 
+When deploying to staging or production, make sure that the necessary workspaces are created before switching to them.
+
+```
+terraform workspace new staging
+terraform workspace select staging
+```
+
 ### Prerequisites
 Copy the set of files in this repository into a new project-specific folder. You will also need an AWS account with a set of API credentials that has sufficient permissions.
 
 For this project, you will also need to ensure that either your AWS account has a service-linked role for AWS ECS. This is because the Amazon ECS container agent makes calls to the Amazon ECS API actions on our behalf, so container instances that run the agent require the ecsInstanceRole IAM policy and role for the service to know that the agent belongs to you. For more information, refer to the [AWS docs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html#create-service-linked-role).
 
+You will also need the following IAM permissions for your AWS profile:
+```
+{
+    "Effect": "Allow",
+    "Action": [
+        "iam:AttachRolePolicy",
+        "iam:CreateRole",
+        "iam:PutRolePolicy"
+    ],
+    "Resource": "arn:aws:iam::*:role/*"
+}
+```
+
+This is needed by the ECS scheduled task module to create the CloudWatch Eventbridge events.
+
 ### Configuration
 Create a new file named `.tfvars` in the project directory with the following contents:
 
 ```txt
-aws_profile="<your-aws-profile-name>"
-allowed_account_id="<your-aws-account-id>"
-app_name="<your-app-name>"
-capacity_providers=<array of capacity providers>
+aws_profile="<your aws profile name>"
+allowed_account_id="<your aws account id>"
+app_name="<your app name>"
+capacity_providers=["FARGATE"]
+image="<image to be deployed>"
+scheduled_task_description="This is a simple ECS scheduled task"
+scheduled_task_schedule_expression="rate(5 minutes)"
+scheduled_task_target_security_groups=[<your VPC's default security group>]
+scheduled_task_target_subnets=[<your VPC's public subnet-1>, <your VPC's public subnet-2>]
 ```
 
 Refer to the `variables.tf` file for more information. Note: this project assumes that you have installed the `aws-cli` and have set up local AWS profiles that you can reference.
