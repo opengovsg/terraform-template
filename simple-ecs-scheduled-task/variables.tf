@@ -32,3 +32,9 @@ variable "capacity_providers" {
     error_message = "Capacity providers must be one of \"FARGATE\", \"FARGATE_SPOT\", or both."
   }
 }
+
+variable "image" {
+  type        = string
+  description = "The image that is used to start the container by the ECS task definition. See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definition_image for more information."
+  default     = "public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest"
+}
