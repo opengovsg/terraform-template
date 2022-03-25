@@ -6,6 +6,8 @@ This repository sets up a simple ECS scheduled task for demo purposes.
 ### Prerequisites
 Copy the set of files in this repository into a new project-specific folder. You will also need an AWS account with a set of API credentials that has sufficient permissions.
 
+For this project, you will also need to ensure that either your AWS account has a service-linked role for AWS ECS. This is because the Amazon ECS container agent makes calls to the Amazon ECS API actions on our behalf, so container instances that run the agent require the ecsInstanceRole IAM policy and role for the service to know that the agent belongs to you. For more information, refer to the [AWS docs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html#create-service-linked-role).
+
 ### Configuration
 Create a new file named `.tfvars` in the project directory with the following contents:
 
