@@ -20,20 +20,9 @@ Copy the set of files in this repository into a new project-specific folder. You
 
 For this project, you will also need to ensure that either your AWS account has a service-linked role for AWS ECS. This is because the Amazon ECS container agent makes calls to the Amazon ECS API actions on our behalf, so container instances that run the agent require the ecsInstanceRole IAM policy and role for the service to know that the agent belongs to you. For more information, refer to the [AWS docs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html#create-service-linked-role).
 
-You will also need the following IAM permissions for your AWS profile:
-```
-{
-    "Effect": "Allow",
-    "Action": [
-        "iam:AttachRolePolicy",
-        "iam:CreateRole",
-        "iam:PutRolePolicy"
-    ],
-    "Resource": "arn:aws:iam::*:role/*"
-}
-```
+(WIP) I am still in the process of figuring out the correct IAM roles needed for this. In the meantime, attach the `IAMFullAccess` policy to your IAM user for this to work.
 
-This is needed by the ECS scheduled task module to create the CloudWatch Eventbridge events.
+This is needed by the ECS scheduled task module to create the roles needed to create CloudWatch Eventbridge events.
 
 ### Configuration
 Create a new file named `.tfvars` in the project directory with the following contents:

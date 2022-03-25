@@ -38,3 +38,36 @@ variable "image" {
   description = "The image that is used to start the container by the ECS task definition. See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#container_definition_image for more information."
   default     = "public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest"
 }
+
+variable "scheduled_task_description" {
+  type        = string
+  description = "Description for the ECS scheduled task"
+}
+
+variable "scheduled_task_schedule_expression" {
+  type        = string
+  description = "An expression that determines the schedule that the task will run on. For example, cron(0 20 * * ? *) or rate(5 minutes)"
+  default     = "rate(5 minutes)"
+}
+
+variable "scheduled_task_target_security_groups" {
+  type        = list(string)
+  description = "A list of security groups that the container executing your task should be a part of"
+  default     = []
+}
+
+variable "scheduled_task_target_subnets" {
+  type        = list(string)
+  description = "A list of subnets that the container executing your task should be a part of"
+}
+
+variable "ecs_task_execution_role_name" {
+  type        = string
+  description = "The IAM role that will be used for ECS task execution"
+  default     = ""
+}
+
+variable "task_role_arn" {
+  type        = string
+  description = "The arn of the task role that will be used for ECS task execution"
+}
