@@ -19,17 +19,6 @@ variable "app_name" {
   description = "The name of the application"
 }
 
-variable "stage" {
-  type        = string
-  description = "The stage of the environment to be created - for example, dev, staging, or production"
-  default     = "development"
-  
-  validation {
-    condition     = contains(["development", "staging", "production"], var.stage)
-    error_message = "Allowed values for stage are \"development\", \"staging\", or \"production\"."
-  }
-}
-
 variable "capacity_providers" {
   type        = list(string)
   description = "The capacity providers that can be used by the ECS cluster"

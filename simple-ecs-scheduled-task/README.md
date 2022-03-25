@@ -2,6 +2,11 @@
 This repository sets up a simple ECS scheduled task for demo purposes.
 
 ## Getting started
+Before you start anything, you need to create a new Terraform workspace. A workspace allows us to separate different environments (such as dev, staging, prod etc.) and stores important information on the state of your infra. To get started, we'll create a workspace for local development. Run the following command:
+
+```
+terraform workspace new development
+```
 
 ### Prerequisites
 Copy the set of files in this repository into a new project-specific folder. You will also need an AWS account with a set of API credentials that has sufficient permissions.
@@ -15,7 +20,6 @@ Create a new file named `.tfvars` in the project directory with the following co
 aws_profile="<your-aws-profile-name>"
 allowed_account_id="<your-aws-account-id>"
 app_name="<your-app-name>"
-stage="<stage>"
 capacity_providers=<array of capacity providers>
 ```
 

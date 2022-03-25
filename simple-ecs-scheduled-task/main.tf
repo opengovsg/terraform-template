@@ -17,7 +17,6 @@ provider "aws" {
 locals {
   tags = {
     App       = var.app_name
-    Environment = var.stage
     Terraform = "true"
     Workspace = terraform.workspace
   }
@@ -26,7 +25,7 @@ locals {
 module "ecs" {
   source = "terraform-aws-modules/ecs/aws"
 
-  name = "${var.app_name}-${var.stage}-${terraform.workspace}"
+  name = "${var.app_name}-${terraform.workspace}"
 
   container_insights = true
 
